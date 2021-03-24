@@ -17,6 +17,7 @@ io.on('connection', socket => {
   //사용자가 localhost:3000으로 접속하면 socket.io 고유 아이디를 "me"트리거를 이용하여 FE쪽으로 보냄
   socket.emit('me', socket.id);
 
+  //   따로 설정안해줘서 아직 작동 없음
   socket.on('disconnect', () => {
     socket.broadcast.emit('callEnded');
   });
@@ -25,6 +26,11 @@ io.on('connection', socket => {
   //  FE단에서 보낸 변수와 함께 작동
   socket.on('callUser', data => {
     //   아마도 FE단에서 데이터를 받으면 데이터를 가공하여 다시 FE로 보내는 함수인듯
+    console.log(
+      'data.userToCall(상대방의 socket.io)라는 이름의Room에 emit하여 채팅방 생성  ',
+      data.userToCall
+    );
+    // 특정 룸에게 이벤트를 보내려면 io.to(‘room이름’).emit()
     io.to(data.userToCall).emit('callUser', {
       signal: data.signalData,
       from: data.from,
@@ -33,6 +39,8 @@ io.on('connection', socket => {
   });
 
   socket.on('answerCall', data => {
+    console.log('answerCall 동작');
+    // data.to를 uuid로 변환 요망
     io.to(data.to).emit('callAccepted', data.signal);
   });
 });
