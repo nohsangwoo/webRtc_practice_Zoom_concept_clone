@@ -10,6 +10,7 @@ import Peer from 'simple-peer';
 // front-end단 socket.io
 import io from 'socket.io-client';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 
 // socket.io가 통신할 백엔드 서버 설정
 // https지원하는곳으로 호스팅 해야함
@@ -28,6 +29,7 @@ function App() {
   const userVideo = useRef();
   const connectionRef = useRef();
   useEffect(() => {
+    console.log('uuid test', uuidv4());
     //  socket.io api에서 webRtc api를 지원하는듯
     // webRtc API를 이용하여 사용자의 비디오를 불러옴
     navigator.mediaDevices
